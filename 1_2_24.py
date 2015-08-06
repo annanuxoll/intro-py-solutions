@@ -13,13 +13,13 @@ import sys
 
 # Box-Muller formula: w = sin(2 pi v) (-2 ln u)^1/2
 #set random numbers u and v
+# I need to redo this with list comprehensions, probably
 
 num = int(sys.argv[1])
 def gaussian_random_num_list(num):
     w_list = []
     pi = math.pi
     e = math.e
-
     for i in range(num):
         u = random.random()
         v = random.random()
@@ -31,11 +31,39 @@ def gaussian_random_num_list(num):
         w_list.append(w)
     total = 0
     item = 0
+    import pdb; pdb.set_trace()
     while item <= (num-1): 
 	    total += w_list[item]
 	    item += 1
+
     print "When %d numbers are generated, the average is %d" % (num, total/num)
     print "The highest is %d" % max(w_list)
     print "The lowest is %d" % min(w_list)
+    # want to test that it actually generates gaussian random numbers 
+    new_list = [0*x for x in range(num)]
+    count = 0
+    while count <= (num-1): 
+	    new_item = (total/num - w_list[count]) ** 2 
+	    new_list[count] = new_item
+	    count += 1
+    
+    new_total = 0 
+    item = 0
+    while item <= (num-1): 
+	    new_total += new_list[item]
+	    item += 1
+
+    print "The standard deviation is %d" % math.sqrt(new_total)
+
+    # new_total = 0
+    # item2 = 0
+    # while item2 <= (num-1): 
+	   #  new_total += new_list[item2]
+	   #  item2 += 1
+
+
+
+
+
 
 gaussian_random_num_list(num)
